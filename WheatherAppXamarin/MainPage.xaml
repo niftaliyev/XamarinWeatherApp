@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="WheatherAppXamarin.MainPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <OnPlatform.Platforms>
+                        <On Platform="iOS" Value="0,20,0,0"/>
+                        <On Platform="Android" Value="0,0,0,0"/>
+                    </OnPlatform.Platforms>
+                </OnPlatform>
+            </StackLayout.Padding>
+            <StackLayout Orientation="Horizontal" Margin="5">
+                <Picker 
+                    HorizontalOptions="FillAndExpand"
+                    Margin="0,0,5,0" 
+                    ItemsSource="{Binding CityNames}"
+                    SelectedItem="{Binding SelectedItem}"
+                    SelectedIndex="{Binding SelectedIndex}" 
+                    SelectedIndexChanged="Picker_OnSelectedIndexChanged"/>
+                <ImageButton Margin="1,0,0,0" Padding="10" HeightRequest="40" WidthRequest="80" Source="AddIcon" Command="{Binding AddCityCommand}"/>
+            </StackLayout>
+            <Image Source="{Binding ImageSource}" HeightRequest="200" Margin="5"/>
+            <Label Text="{Binding Temperature ,StringFormat='{0}℃'}" FontSize="60" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+            <Label Text="{Binding Humidity ,StringFormat='Humidity: {0}'}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+            <Label Text="{Binding Pressure ,StringFormat='Pressure: {0}'}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+            <Label Text="{Binding Speed ,StringFormat='Wind: {0}'}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+
+            <ListView  HasUnevenRows="True"
+                       ItemsSource="{Binding TimeDetailForecasts}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Margin="10"
+                                             BackgroundColor="AliceBlue">
+                                    <Label Text="{Binding time}" HorizontalTextAlignment="Center"/>
+                                    <Image HeightRequest="100" Source="{Binding weather[0].IconGet}"/>
+                                    <Label Text="{Binding main.Temperature}" HorizontalOptions="Center"/>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
